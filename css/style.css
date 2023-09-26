@@ -1,0 +1,23 @@
+
+
+body {
+    background-image: url(../img/evening_tao.jpg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: fantasy;
+    font-size: xx-large;
+    
+}
+
+
+
+.flex-container{
+    display: flex;
+    justify-content: right;
+}
+
+.flex-container>div{
+    text-align: center;
+    border-bottom: 10px solid yellow;
+    margin-top: 50px;
+}
