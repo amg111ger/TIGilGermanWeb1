@@ -13,11 +13,11 @@
         <label for="lname">Apellido</label><br>
         <input type="text" id="lname" name="lname" value=""><br>
         
-        <input type="radio" id="personaContacto" name="personaContacto" value="cliente">
+        <input type="radio" id="" name="personaContacto" value="cliente">
         <label for="cliente">Cliente</label><br>
-        <input type="radio" id="personaContacto" name="personaContacto" value="proveedor">
+        <input type="radio" id="" name="personaContacto" value="proveedor">
         <label for="proveedor">Proveedor</label><br>
-        <input type="radio" id="personaContacto" name="personaContacto" value="otro">
+        <input type="radio" id="" name="personaContacto" value="otro">
         <label for="otro">Otro</label><br>
 
         <label for="email">Ingrese su mail: </label>
@@ -29,29 +29,63 @@
         <br><button type="submit" id="btnEnviar">Enviar</button>
     </form>
 
+    <ul id="ltaErrores"></ul>
+
     <script>
+        const ltaErrores = document.getElementById("ltaErrores");
         function verificadorDatosEnviar(){
+
+            let errores=[];
+            ltaErrores.innerHTML="";
+
             //Obtener lo ingresado en los inputs text
             let nombre = document.getElementById("fname").value;
             let apellido = document.getElementById("lname").value;
             //Obtener si esta seleccionado algún radio
-            let personaQueContacta = document.getElementById("personaContacto").checked;
+            let personaQueContacta = document.getElementsByName("personaContacto");
+            //Viene colección completa. Verificar como array mediante for y flag
+            let flag=false;
+            for(let i=0;i<personaQueContacta.length;i++){
+                if(personaQueContacta[i].checked){
+                    flag=true;
+                }
+            }
             //Obtener mail ingresado
             let mail = document.getElementById("email").value;
             //Patron que va a verificar el mail
             let pat_mail = /^\w+@\w+(\.\w{2,4})+$/;
             //(Como verificar el mail)
-            pat_mail.test(mail);
+            let verificacionMail = pat_mail.test(mail);
             //Obtener consulta de textArea
             let textoArea = document.getElementById("consulta").value;
 
             //Consultar por el uso de patterns
 
             //Comenzar con las verificaciones
-                          
-            //Ejemplo de uso carteles. Utilizar para ver si verifico bien
-            let mensaje = "prueba verificación mail "+pat_mail.test(mail);
-            alert(mensaje);
+            if(nombre==""){
+                errores.push("Falta el nombre");
+            }
+            if(apellido==""){
+                errores.push("Falta el apellido");
+            }
+            if(!flag){
+                errores.push("Falta seleccionar si es cliente, proveedor u otro");
+            }
+            if(!verificacionMail){
+                errores.push("Ingrese mail valido")
+            }
+            if(textoArea==""){
+                errores.push("Ingrese consulta")
+            }
+
+            if(errores.length>0){
+                for(let i=0;i<errores.length;i++){
+                    let li = document.createElement("li");
+                    li.innerHTML = errores[i];
+                    ltaErrores.appendChild(li);
+                }
+            }
+            return false;  
         }
     </script>
 
