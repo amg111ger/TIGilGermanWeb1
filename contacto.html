@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8" />
     <title>Contacto</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>A continuación, por favor completar datos para que podamos contactarnos: </h1>
+    
+    <div class="sticky">
+        <div class="flex-container"></div>
+            <div class="flex-container">
+                <div>LogoEmpresa</div>
+                <div style="flex-grow: 10;"></div>
+                <div><a href="index.html">Servicios</a></div>
+                <div>Trabajos</div>
+                <div>Notas de interes</div>
+                <div><a href="contacto.html">Contacto</a></div>
+            </div>
+            <div class="lineaAmarilla"></div>
+        </div> 
+    </div>
+    
+    <p id="tituloPagForm">A continuación, por favor completar datos para que podamos contactarnos: </p>
 
-    <form onsubmit="return verificadorDatosEnviar()">
+    <form id="formConsulta" onsubmit="return verificadorDatosEnviar()">
         <label for="fname">Nombre</label><br>
         <input type="text" id="fname" name="fname" value=""><br> <!--Limitado a 10 caracteres -->
         <label for="lname">Apellido</label><br>
@@ -29,7 +45,11 @@
         <br><button type="submit" id="btnEnviar">Enviar</button>
     </form>
 
+    <!--Lista para mostrar datos que faltan llenar-->
     <ul id="ltaErrores"></ul>
+    <!--Div para mostrar que se enviaron los datos-->
+    <div id="divDatosCorrectos"></div>
+    
 
     <script>
         const ltaErrores = document.getElementById("ltaErrores");
@@ -59,31 +79,52 @@
             //Obtener consulta de textArea
             let textoArea = document.getElementById("consulta").value;
 
-            //Consultar por el uso de patterns
+            //Flag para mostrar cartel de datos enviados correctamente
+            let flagOkDatos=true;
 
             //Comenzar con las verificaciones
+            //Se va llenado el arreglo definido al principio del script, con las verificaciones que no se cumplan
             if(nombre==""){
                 errores.push("Falta el nombre");
+                flagOkDatos=false;
             }
             if(apellido==""){
                 errores.push("Falta el apellido");
+                flagOkDatos=false;
             }
             if(!flag){
                 errores.push("Falta seleccionar si es cliente, proveedor u otro");
+                flagOkDatos=false;
             }
             if(!verificacionMail){
                 errores.push("Ingrese mail valido")
+                flagOkDatos=false;
             }
             if(textoArea==""){
                 errores.push("Ingrese consulta")
+                flagOkDatos=false;
             }
 
+            //con las varificaciones que no se cumplieron, lleno la lista fuera del script
             if(errores.length>0){
                 for(let i=0;i<errores.length;i++){
                     let li = document.createElement("li");
                     li.innerHTML = errores[i];
                     ltaErrores.appendChild(li);
                 }
+            }
+
+            if(flagOkDatos){
+                //Traigo el div a llenar con su clase, para cambiarla (el div vacio inicial, que dejamos para llenar con la confirmación de que se enviaron los datos)
+                const cartel = document.getElementById("divDatosCorrectos").classList;
+                cartel.add("divMensajeDatosEnviados");
+                //le agrego msj
+                let contenidoCartel = document.getElementById("divDatosCorrectos");
+                contenidoCartel.innerHTML="Consulta enviada!!!!!";
+
+                //Oculto el formulario y el titulo
+                document.getElementById("formConsulta").style.display="none";
+                document.getElementById("tituloPagForm").style.display="none";
             }
             return false;  
         }
