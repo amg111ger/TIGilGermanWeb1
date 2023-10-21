@@ -20,10 +20,44 @@
     </div>
 
     <div class="flex-container-centrar">
-        <img src="img/Trabajos/img1.jpg" alt="" width="800" height="600" al>
+        <img id="fotoAct" src="img/Trabajos/img1.jpg" alt="" width="800" height="600" al>
+    </div>
+    
+    <div class="flex-container-centrar">
+        <div>
+            <button onclick="return pasarAnt()">Anterior</button>
+        </div>
+        <div>
+            <button onclick="return pasarSig()">Siguiente</button>
+        </div>
     </div>
 
+    <script>
+        //src de fotos
+        let srcFotos=["img/Trabajos/img1.jpg","img/Trabajos/img2.jpg","img/Trabajos/img3.jpg","img/Trabajos/img4.jpg"];
+        //Cantidad de fotos
+        let cantFotos=4;
+        //Indice de foto
+        let fotoNro = 0;
+        
+        function pasarSig(){
+            fotoNro+=1;
+            if(fotoNro==cantFotos){
+                fotoNro=0;
+            }
+            let fotoSig = document.getElementById("fotoAct");
+            fotoSig.src = srcFotos[fotoNro];
+        }
 
-
+        function pasarAnt(){
+            fotoNro-=1;
+            if(fotoNro<0){
+                fotoNro=cantFotos-1;
+            }
+            let fotoAnt = document.getElementById("fotoAct");
+            fotoAnt.src = srcFotos[fotoNro];
+        }
+        
+    </script>
 </body>
 </html>
