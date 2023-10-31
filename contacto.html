@@ -45,7 +45,7 @@
             <label for="email">Ingrese su mail: </label>
             <input type="email" id="email" name="email"><br>
 
-            <br><label for="consulta">Por favor, ingrese su consulta: </label><br>
+            <br><label for="consulta">Por favor, ingrese su consulta (máximo 200 caracteres): </label><br>
             <textarea name="consulta" id="consulta" cols="30" rows="10"></textarea><br>
 
             <br><button type="submit" id="btnEnviar">Enviar</button>
@@ -56,6 +56,8 @@
     <ul id="ltaErrores"></ul>
     <!--Div para mostrar que se enviaron los datos-->
     <div id="divDatosCorrectos"></div>
+    <!--Div para mostrar que datos se enviaron-->
+    <div id="queSeEnvio"></div>
     
 
     <script>
@@ -110,6 +112,9 @@
             if(textoArea==""){
                 errores.push("Ingrese consulta")
                 flagOkDatos=false;
+            } else if(textoArea.length>200){
+                errores.push("Máximo 200 caracteres");
+                flagOkDatos=false;
             }
 
             //con las varificaciones que no se cumplieron, lleno la lista fuera del script
@@ -129,6 +134,14 @@
                 let contenidoCartel = document.getElementById("divDatosCorrectos");
                 contenidoCartel.innerHTML="Consulta enviada!!!!!";
 
+                //Muestro los datos enviados
+                const divDatosEnviados = document.createElement("div");
+                divDatosEnviados.innerHTML=`Nombre: ${nombre}. Apellido: ${apellido}. Mail: ${mail}. Su consulta: ${textoArea}`;
+                
+                let otro = document.getElementById("queSeEnvio");
+                
+                document.getElementById("divDatosCorrectos").appendChild(divDatosEnviados,otro);
+
                 //Oculto el formulario y el titulo
                 document.getElementById("formConsulta").style.display="none";
                 document.getElementById("tituloPagForm").style.display="none";
@@ -138,6 +151,7 @@
     </script>
 
     <!--Pie de página-->
+    <!--Tiene el diseño, para colocar los a con vinculos a las redes. Como no se tienen, se deja presentado-->
     <div class="divPiePagina">
         <div class="flex-container-centrar">Seguinos en las redes</div>
             <div class="flex-container-centrar-y-separar">
